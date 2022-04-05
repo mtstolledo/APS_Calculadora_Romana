@@ -1,0 +1,136 @@
+﻿function romano(num) {
+
+/*
+Autor: Carlos bumba BG16
+em: 27-02-2020
+Título: Calculadora de número romano ( 1 - 500 )
+*/
+
+let str_saida = "";
+//declaração de um dicionário de letras romanas
+let letras = new Map();
+
+//atribuições das chaves e valores ao mapa
+letras.set(1,"I");
+letras.set(2,"II");
+letras.set(3,"III");
+letras.set(4,"IV");
+letras.set(5,"V");
+letras.set(6,"VI");
+letras.set(7,"VII");
+letras.set(8,"VIII");
+letras.set(9,"IX");
+letras.set(10,"X");
+letras.set(50,"L");
+letras.set(100,"C");
+letras.set(500,"D");
+letras.set(1000,"M");
+
+
+//função para preenchimento das letras na variaveis
+function addLetra(letra,num_letra) {
+    while(num_letra > 0) {
+   str_saida += letras.get(letra);
+   num_letra--;
+   }
+}
+
+/*
+função que serve para reduzir os números que ultrapassam os 4 dígito
+exemplo: XXXX => 40
+PARA: IL => 40
+*/
+
+function limDig(dig,proximo) {
+
+//o dígito que excedeu é 10 (X) ?
+if(letras.get(dig) == "X") {
+addLetra(1,1);
+addLetra(proximo,1);
+}
+//o dígito que excedeu é 50 (C) ?
+ else if(letras.get(dig) == "C") {
+addLetra(100,1);
+addLetra(proximo,1);
+}
+//o dígito que excedeu é 1000 (M) ?
+ else if(letras.get(dig) == "M") {
+addLetra(1000,1);
+addLetra(proximo,1);
+}
+
+}
+
+//para números >=1 && <=10
+function simp(x) {
+str_saida += letras.get(x);
+}
+
+//para números >10 && <=50
+function por10(x) {
+ if(parseInt(x/10) <=3)
+addLetra(10,parseInt(x/10));
+ else
+  limDig(10,50);
+return x%10;
+}
+
+
+//para números >50 && <=100
+function por50(x) {
+ if(parseInt(x/50) <=3)
+addLetra(50,parseInt(x/50));
+ else
+  limDig(50,100);
+return x%50;
+}
+
+//para números >100 && <=500
+function por100(x) {
+ if(parseInt(x/100) <=3)
+addLetra(100,parseInt(x/100));
+ else
+  limDig(100,500);
+return x%100;
+}
+
+//para números >500 && <=1000
+function por500(x) {
+addLetra(500,parseInt(x/500));
+return x%500;
+}
+
+//para números >1000 && <=5000
+function por1000(x) {
+ if(parseInt(x/1000) <=3)
+addLetra(1000,parseInt(x/1000));
+ else
+  limDig(1000,5000);
+return x%1000;
+}
+
+while (num > 0) {
+
+  if(num >=1 && num <=10)
+    num = simp(num);
+      
+      if(num >10 && num <50)
+       num = por10(num);
+       
+         if(num >=50 && num <100)
+          num = por50(num);
+          
+           if(num >=100 && num < 500)
+            num = por100(num);
+            
+             if(num >=500 && num <1000)
+              num = por500(num);
+              
+               if(num >=1000 && num <=5000)
+                num = por1000(num);
+
+}
+
+
+return str_saida;
+}
